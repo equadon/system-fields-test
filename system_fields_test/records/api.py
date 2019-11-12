@@ -22,4 +22,5 @@ class CustomRecord(Record):
         data["$schema"] = current_jsonschemas.path_to_url(cls._schema)
         # data["$schema"] = "http://www.test.com/"
         # return super(CustomRecord, cls).create(data, id_=id_, **kwargs)
+        print('data', data)
         return super(CustomRecord, cls).create(data, id_=id_, **kwargs)

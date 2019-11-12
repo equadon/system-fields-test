@@ -41,6 +41,7 @@ class ContributorSchemaV1(StrictKeysMixin):
 class MetadataSchemaV1(StrictKeysMixin):
     """Schema for the record metadata."""
 
+    _schema = fields.Str(data_key="$schema", attribute="$schema", dump_only=True)
     id = PersistentIdentifier()
     title = SanitizedUnicode(required=True, validate=validate.Length(min=3))
     keywords = fields.List(SanitizedUnicode(), many=True)
@@ -52,6 +53,7 @@ class MetadataSchemaV1(StrictKeysMixin):
 class RecordSchemaV1(StrictKeysMixin):
     """Record schema."""
 
+    # _schema = fields.Str(attribute="$schema", dump_only=True)
     metadata = fields.Nested(MetadataSchemaV1)
     created = fields.Str(dump_only=True)
     revision = fields.Integer(dump_only=True)
