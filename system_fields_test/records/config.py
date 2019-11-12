@@ -47,7 +47,7 @@ RECORDS_REST_ENDPOINTS = {
         },
         list_route='/records/',
         item_route='/records/<pid(recid,'
-                   'record_class="invenio_records_files.api.Record")'
+                   'record_class="system_fields_test.records.api.CustomFilesRecord")'
                    ':pid_value>',
         default_media_type='application/json',
         max_result_window=10000,
