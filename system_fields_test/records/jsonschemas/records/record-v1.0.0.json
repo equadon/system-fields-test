@@ -5,6 +5,10 @@
   "title": "System Fields Test v1.0.0",
   "type": "object",
   "properties": {
+    "$schema": {
+      "description": "Record schema.",
+      "type": "string"
+    },
     "title": {
       "description": "Record title.",
       "type": "string"
@@ -85,6 +89,7 @@
     }
   },
   "required": [
+    "$schema",
     "id",
     "contributors",
     "title"
