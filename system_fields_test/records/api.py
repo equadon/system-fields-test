@@ -17,24 +17,18 @@ from invenio_records_files.api import Record as FilesRecord
 class CustomRecord(Record):
 
     _schema = "records/record-v1.0.0.json"
-    _system_fields = None
 
     @classmethod
     def create(cls, data, id_=None, **kwargs):
         data["id"] = int(data["id"])
         data["$schema"] = current_jsonschemas.path_to_url(cls._schema)
         return super(CustomRecord, cls).create(data, id_=id_, **kwargs)
-
-    def clear(self):
-        values = self.copy()
-        super(CustomRecord, self).clear()
-        abc = values
 
 
 class CustomFilesRecord(FilesRecord):
 
     _schema = "records/record-v1.0.0.json"
-    _system_fields = ["$schema"]
+    system_fields = ["$schema"]
 
     @classmethod
     def create(cls, data, id_=None, **kwargs):
@@ -42,13 +36,11 @@ class CustomFilesRecord(FilesRecord):
         data["$schema"] = current_jsonschemas.path_to_url(cls._schema)
         return super(CustomRecord, cls).create(data, id_=id_, **kwargs)
 
-    def clear(self):
-        values = copy.deepcopy(self)
-        super(CustomFilesRecord, self).clear()
-        if self._system_fields:
-            for field in self._system_fields:
-                self[field] = values[field]
-
     def update(self, data):
         super(CustomFilesRecord, self).update(data)
         self["id"] = int(self["id"])
+
+    def after_clear(self, old_values):
+        # Restore system fields
+        super(CustomRecord, self).after_clear(old_values)
+        self["$schema"] = old_values["$schema"]
